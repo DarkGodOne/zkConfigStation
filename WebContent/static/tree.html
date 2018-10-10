@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Zookeeper配置管理中心</title>
+        <link rel="stylesheet" type="text/css" href="static/css/normalize.css" />
+		<link rel="stylesheet" type="text/css" href="static/css/default.css">
+		<link rel="stylesheet" type="text/css" href="static/css/Aimara.css">
+		<link rel="stylesheet" type="text/css" href="static/css/Example.css">
+		<link rel="shortcut icon" href="static/images/gxkbig.png" type="image/x-icon">
+		<link href="static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="static/css/zkacd.css" rel="stylesheet">
+		<script src="static/lib/Aimara.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				loading(true,"Loading ...");
+				setTimeout(function(){loadJsonTree("/");reloadtree(treelist);loading(false,"");},100);
+			};		
+		</script>
+	</head>
+	<body>
+	<div id="wrap">
+		<!-- Menu Bar -->
+		<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+			<div class="container">
+				<div class="navbar-header" align="left">
+					<img src="static/images/gxksmall.png" height="84" width="166"/>
+				</div>
+				<div>
+					<h1 style="color:black;font-size:40px;margin-left:35%;">Zookeeper配置中心</h1>
+				</div>
+			</div>
+		</div>
+		<!-- Menu Bar Ends -->
+		<!--<header class="navbar-header">
+			<h1>Zookeeper配置管理中心gxk </h1>
+		</header>-->
+		<div class="container" style="margin-top:89px;padding-top:0">
+			<div id="loading" style="color:#FFFFFF width: 200px;height: 250px;display:none;position:fixed;margin-left:25%;top:90px;">
+				<h1 id="loadvalue" style="text-align:center">Loading ...</h1>
+				<img src='static/images/loading.gif'/>
+			</div>
+			<div id="div_tree">
+			
+			</div>
+			<div id="div_log">
+
+			</div>
+			<input id="upload" type="file" name="uploadFile" style="display:none;" onchange="uploadFile()"/>
+		</div>
+	</div>
+	</body>
+</html>
