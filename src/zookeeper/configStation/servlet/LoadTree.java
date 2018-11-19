@@ -249,21 +249,21 @@ public class LoadTree extends HttpServlet {
 				String tpath = "";
 				if(cPath.equals("/"))
 				{
-					tpath = cPath + kv[0];
+					tpath = cPath + kv[0].trim();
 				}
 				else
 				{
-					tpath = cPath + "/" + kv[0];
+					tpath = cPath + "/" + kv[0].trim();
 				}
 				
 				try {
 					if(myzk.exists(tpath, false) == null)
 					{
-						myzk.create(tpath,kv[1].getBytes(),Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
+						myzk.create(tpath,kv[1].trim().getBytes(),Ids.OPEN_ACL_UNSAFE,CreateMode.PERSISTENT);
 					}
 					else
 					{
-						myzk.setData(tpath,kv[1].getBytes(),-1);
+						myzk.setData(tpath,kv[1].trim().getBytes(),-1);
 					}
 				} catch (KeeperException e) {
 					// TODO Auto-generated catch block
