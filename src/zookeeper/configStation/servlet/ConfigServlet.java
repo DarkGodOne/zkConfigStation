@@ -2,7 +2,6 @@ package zookeeper.configStation.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
 
 /**
  * Servlet implementation class configServlet
@@ -40,37 +37,7 @@ public class ConfigServlet extends HttpServlet{
 		// TODO Auto-generated method stub
 		super.init();
 		isLogin = false;
-	}
-	
-	public static String encodeBase64(String str) {  
-        byte[] b = null;  
-        String s = null;  
-        try {  
-            b = str.getBytes("utf-8");  
-        } catch (UnsupportedEncodingException e) {  
-            e.printStackTrace();  
-        }  
-        if (b != null) {  
-            s = new BASE64Encoder().encode(b);  
-        }  
-        return s;  
-    }  
-  
-    // 解密  
-    public static String decodeBase64(String s) {  
-        byte[] b = null;  
-        String result = null;  
-        if (s != null) {  
-            BASE64Decoder decoder = new BASE64Decoder();  
-            try {  
-                b = decoder.decodeBuffer(s);  
-                result = new String(b, "utf-8");  
-            } catch (Exception e) {  
-                e.printStackTrace();  
-            }  
-        }  
-        return result;  
-    }  
+	} 
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -90,8 +57,8 @@ public class ConfigServlet extends HttpServlet{
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String user = decodeBase64(request.getParameter("user"));
-    	String pass = decodeBase64(request.getParameter("pass"));
+		String user = request.getParameter("user");
+    	String pass = request.getParameter("pass");
     	
     	if(user.equals("admin") && pass.equals("gxk123"))
     	{

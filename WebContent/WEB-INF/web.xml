@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:web="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd http://xmlns.jcp.org/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.4">
   <display-name>Server Zookeeper Config</display-name>
   <description>
@@ -9,7 +9,7 @@
   </welcome-file-list>
   <context-param>
     <param-name>zkhost</param-name>
-    <param-value>192.168.26.104:9181</param-value>
+    <param-value>127.0.0.1:2181</param-value>
   </context-param>
   <context-param>
     <param-name>logConfig</param-name>

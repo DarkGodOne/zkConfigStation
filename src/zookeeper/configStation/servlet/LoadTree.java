@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -487,7 +488,7 @@ public class LoadTree extends HttpServlet {
     private void loadTree(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
     {
     	String resultstr = "";
-		String curpath = Common.decodeBase64(request.getParameter("curpath")).trim();
+		String curpath = request.getParameter("curpath").trim();
 		LOG.info("curpath: "+curpath);
 		
 		try {
@@ -545,16 +546,16 @@ public class LoadTree extends HttpServlet {
 			LOG.error("loadTree IOException: "+e.getMessage());
 			resultstr = "loadTree IOException: "+e.getMessage();
     	}
-		
+		response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
 		PrintWriter out = response.getWriter();
-	    out.append(Common.encodeBase64(resultstr));
+	    out.append(URLEncoder.encode(resultstr,"UTF-8"));
 	    out.flush();
 	    out.close();
     }
     
-    private void getData(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
+	private void getData(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
     {
-    	String curpath = Common.decodeBase64(request.getParameter("curpath")).trim();
+    	String curpath = request.getParameter("curpath").trim();
     	LOG.info("curpath: "+curpath);
     	
     	String result = "";
@@ -604,23 +605,24 @@ public class LoadTree extends HttpServlet {
 			result += "<h1>get "+curpath+" data is error: "+e.getMessage()+"</h1>";
 			LOG.error("getData IOException: "+e.getMessage());
     	}
+    	response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     	PrintWriter out = response.getWriter();
-    	out.append(Common.encodeBase64(result));
+    	out.append(URLEncoder.encode(result,"UTF-8"));
 	    out.flush();
 	    out.close();
     }
     
-    private void addNode(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
+	private void addNode(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
     {
-    	String curpath = Common.decodeBase64(request.getParameter("curpath")).trim();
-    	String nodename = Common.decodeBase64(request.getParameter("nodename")).trim();
-    	String nodedata = Common.decodeBase64(request.getParameter("nodedata")).trim();
+    	String curpath = request.getParameter("curpath").trim();
+    	String nodename = request.getParameter("nodename").trim();
+    	String nodedata = request.getParameter("nodedata").trim();
     	BufferedReader br = request.getReader();
     	String str, treelist = "";
     	while((str = br.readLine()) != null){
     		treelist += str;
     	}
-    	treelist = Common.decodeBase64(treelist).trim();
+    	treelist = URLDecoder.decode(treelist,"UTF-8").trim();
     	String resultstr = treelist;
     	LOG.info("curpath: "+curpath);
     	LOG.info("nodename: "+nodename);
@@ -664,22 +666,22 @@ public class LoadTree extends HttpServlet {
 			resultstr = "addNode error: "+e.getMessage();
 			LOG.error("addNode InterruptedException: "+e.getMessage());
 		}
-    	
+    	response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     	PrintWriter out = response.getWriter();
-	    out.append(Common.encodeBase64(resultstr));
+	    out.append(resultstr);
 	    out.flush();
 	    out.close();
     }
     
-    private void delNode(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
+	private void delNode(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
     {
-    	String curpath = Common.decodeBase64(request.getParameter("curpath")).trim();
+    	String curpath = request.getParameter("curpath").trim();
     	BufferedReader br = request.getReader();
     	String str, treelist = "";
     	while((str = br.readLine()) != null){
     		treelist += str;
     	}
-    	treelist = Common.decodeBase64(treelist).trim();
+    	treelist = URLDecoder.decode(treelist,"UTF-8").trim();
     	String resultstr = treelist;
     	LOG.info("curpath: "+curpath);
     	
@@ -738,24 +740,25 @@ public class LoadTree extends HttpServlet {
 			resultstr = "delNode error: "+e.getMessage();
 			LOG.error("delNode InterruptedException: "+e.getMessage());
 		}
-    	
+    	response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     	PrintWriter out = response.getWriter();
-	    out.append(Common.encodeBase64(resultstr));
+	    out.append(URLEncoder.encode(resultstr,"UTF-8"));
 	    out.flush();
 	    out.close();
     }
     
-    private void setNode(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
+	private void setNode(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
     {
-    	String curpath = Common.decodeBase64(request.getParameter("curpath")).trim();
+    	String curpath = request.getParameter("curpath").trim();
     	BufferedReader br = request.getReader();
     	String str, nodedata = "";
     	while((str = br.readLine()) != null){
     		nodedata += str;
     	}
-    	nodedata = Common.decodeBase64(nodedata).trim();
+    	nodedata = URLDecoder.decode(nodedata,"UTF-8").trim();
     	LOG.info("curpath: "+curpath);
     	LOG.info("nodedata: "+nodedata);
+    	response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     	PrintWriter out = response.getWriter();
     	
     	String result = "";
@@ -793,15 +796,15 @@ public class LoadTree extends HttpServlet {
 			result += "<h1>get "+curpath+" data is error: "+e.getMessage()+"</h1>";
 			LOG.error("setNode InterruptedException: "+e.getMessage());
 		} 
-    	out.append(Common.encodeBase64(result));
+    	out.append(URLEncoder.encode(result,"UTF-8"));
 	    out.flush();
 	    out.close();
     }
     
-    private void importFile(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
+	private void importFile(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
     {
     	StringBuffer result = new StringBuffer();
-    	String curpath = Common.decodeBase64(request.getParameter("curpath")).trim();
+    	String curpath = request.getParameter("curpath").trim();
     	LOG.info("import curpath : "+curpath);
     	ServletFileUpload fileUpload = new ServletFileUpload();
     	FileItemIterator iter = null;
@@ -853,16 +856,16 @@ public class LoadTree extends HttpServlet {
 		{
 			LOG.error("createConfig error: " + result);
 		}
-		
+		response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     	PrintWriter out = response.getWriter();
-    	out.append(Common.encodeBase64(result.toString()));
+    	out.append(URLEncoder.encode(result.toString(),"UTF-8"));
 	    out.flush();
 	    out.close();
     }
     
-    private void exportFile(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
+	private void exportFile(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException 
     {
-    	String curpath = Common.decodeBase64(request.getParameter("curpath")).trim();
+    	String curpath = request.getParameter("curpath").trim();
     	int index = 0;
     	
     	String result = null;
@@ -914,9 +917,9 @@ public class LoadTree extends HttpServlet {
     		LOG.error("exportFile IOException: "+e.getMessage());
     		result = "exportFile IOException: "+e.getMessage();
     	}
-    	
+    	response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
     	PrintWriter out = response.getWriter();
-    	out.append(Common.encodeBase64(result));
+    	out.append(URLEncoder.encode(result,"UTF-8"));
 	    out.flush();
 	    out.close();
     }
@@ -929,9 +932,10 @@ public class LoadTree extends HttpServlet {
 		
 		if(func == null)
 		{
+			response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			LOG.error("doGet func is null!");
-			out.append(Common.encodeBase64("<h1>404, NOT FOUND!</h1>"));
+			out.append(URLEncoder.encode("<h1>404, NOT FOUND!</h1>","UTF-8"));
 		    out.flush();
 		    out.close();
 		    return;
@@ -972,8 +976,9 @@ public class LoadTree extends HttpServlet {
 		}
 		else
 		{
+			response.setHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
 			PrintWriter out = response.getWriter();
-			out.append(Common.encodeBase64("<alter>func is not access!</alter>"));
+			out.append(URLEncoder.encode("<alter>func is not access!</alter>","UTF-8"));
 			LOG.error("doGet func is not access!");
 		    out.flush();
 		    out.close();

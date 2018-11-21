@@ -295,7 +295,6 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 		getData: function(p_node) {
 			clickFlag = 0;
 			var xmlhttp;
-			var b = new Base64();
 			if (window.XMLHttpRequest)
 			{
 				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -312,7 +311,7 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 				{
 					if(xmlhttp.status==200)
 					{
-						document.getElementById("div_log").innerHTML=b.decode(xmlhttp.responseText);
+						document.getElementById("div_log").innerHTML=decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20"));
 						/*var str = xmlhttp.responseText;
 						treelist = eval('(' + str + ')'); 
 						reloadtree(treelist);*/
@@ -323,7 +322,7 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 				}
 			}
 			try{ 
-				xmlhttp.open("GET","/configStation/loadTree.do\?func=getdata&curpath="+b.encode(p_node.nodepath),false);
+				xmlhttp.open("GET","/configStation/loadTree.do\?func=getdata&curpath="+encodeURIComponent(p_node.nodepath),false);
 				xmlhttp.send(null);
 			}catch(exception){  
 				alert("getdata resource is not accessed!");  
@@ -331,7 +330,6 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 		},
 		addNode: function(p_node,nodename,nodedata) {
 			var xmlhttp;
-			var b = new Base64();
 			if (window.XMLHttpRequest)
 			{
 				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -349,7 +347,7 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 					if(xmlhttp.status==200)
 					{
 						try {
-							var str = b.decode(xmlhttp.responseText);
+							var str = decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20"));
 							var obj=JSON.parse(str);
 							treelist = eval('(' + str + ')');
 							
@@ -365,7 +363,7 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 							p_node.changeicon('static/images/folder.png');
 							p_node.createChildNode(nodename, false, 'static/images/leaf.png',nodepath,null,'context1');
 						} catch(e) {
-							alert(b.decode(xmlhttp.responseText));
+							alert(decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20")));
 						}
 						//reloadtree(treelist);
 					}
@@ -375,16 +373,15 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 				}
 			}
 			try{  
-				xmlhttp.open("POST","/configStation/loadTree.do\?func=addnode\&curpath="+b.encode(p_node.nodepath)+
-				"\&nodename="+b.encode(nodename)+"\&nodedata="+b.encode(nodedata),false);
-				xmlhttp.send(b.encode(JSON.stringify(treelist)));
+				xmlhttp.open("POST","/configStation/loadTree.do\?func=addnode\&curpath="+encodeURIComponent(p_node.nodepath)+
+						"\&nodename="+encodeURIComponent(nodename)+"\&nodedata="+encodeURIComponent(nodedata),false);
+				xmlhttp.send(encodeURIComponent(JSON.stringify(treelist)));
 			}catch(exception){  
 				alert("addNode resource is not accessed!");
 			}
 		},
 		delNode: function(p_node) {
 			var xmlhttp;
-			var b = new Base64();
 			if (window.XMLHttpRequest)
 			{
 				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -406,12 +403,12 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 							loadJsonTree("/");
 							loadJson(tree,null, treelist);
 							tree.drawTree();
-							alert(b.decode(xmlhttp.responseText));
+							alert(decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20")));
 						}
 						else
 						{
 							try {
-								var str = b.decode(xmlhttp.responseText);
+								var str = decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20"));
 								var obj = JSON.parse(str);
 								treelist = eval('(' + str + ')');
 								
@@ -421,7 +418,7 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 									p_node.parent.changeicon('static/images/leaf.png');
 								}
 							} catch(e) {
-								alert(b.decode(xmlhttp.responseText));
+								alert(decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20")));
 							}
 						}
 					}
@@ -432,8 +429,8 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 				}
 			}
 			try{  
-				xmlhttp.open("POST","/configStation/loadTree.do\?func=delnode\&curpath="+b.encode(p_node.nodepath),false);
-				xmlhttp.send(b.encode(JSON.stringify(treelist)));
+				xmlhttp.open("POST","/configStation/loadTree.do\?func=delnode\&curpath="+encodeURIComponent(p_node.nodepath),false);
+				xmlhttp.send(encodeURIComponent(JSON.stringify(treelist)));
 			}catch(exception){  
 				alert("delNode resource is not accessed!");
 				loading(false,"");
@@ -441,7 +438,6 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 		},
 		setNode: function(nodepath,nodedata) {
 			var xmlhttp;
-			var b = new Base64();
 			if (window.XMLHttpRequest)
 			{
 				//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -458,7 +454,7 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 				{
 					if(xmlhttp.status==200)
 					{
-						document.getElementById("div_log").innerHTML=b.decode(xmlhttp.responseText);
+						document.getElementById("div_log").innerHTML=decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20"));
 					}
 					else{
 						alert("request is error: "+ xmlhttp.status +"!");					
@@ -466,8 +462,8 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 				}
 			}
 			try{ 
-				xmlhttp.open("POST","/configStation/loadTree.do\?func=setnode\&curpath="+b.encode(nodepath),false);
-				xmlhttp.send(b.encode(nodedata));
+				xmlhttp.open("POST","/configStation/loadTree.do\?func=setnode\&curpath="+encodeURIComponent(nodepath),false);
+				xmlhttp.send(encodeURIComponent(nodedata));
 			}catch(exception){  
 				alert("setNode resource is not accessed!");
 			}
@@ -757,7 +753,6 @@ function uploadFile()
 	}
 	
 	var xmlhttp;
-	var b = new Base64();
 	if (window.XMLHttpRequest)
 	{
 		//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -777,7 +772,7 @@ function uploadFile()
 				loadJsonTree("/");
 				loadJson(tree,null, treelist);
 				tree.drawTree();
-				alert(b.decode(xmlhttp.responseText));
+				alert(decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20")));
 			}
 			else{
 				alert("request is error: "+ xmlhttp.status +"!");
@@ -790,7 +785,7 @@ function uploadFile()
 		var fd = new FormData();
 		/* 把文件添加到表单里 */
 		fd.append("upfile", file);
-		xmlhttp.open("POST","/configStation/loadTree.do\?func=uploadfile\&curpath="+b.encode(upload.name),true);
+		xmlhttp.open("POST","/configStation/loadTree.do\?func=uploadfile\&curpath="+encodeURIComponent(upload.name),true);
 		xmlhttp.send(fd);
 	}catch(exception){  
 		alert("uploadFile resource is not accessed!");
@@ -803,7 +798,6 @@ function downloadFile(nodepath)
 {
 	loading(true,"Exporting ...");
 	var xmlhttp;
-	var b = new Base64();
 	if (window.XMLHttpRequest)
 	{
 		//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -834,7 +828,7 @@ function downloadFile(nodepath)
 				}
 				else
 				{
-					alert(b.decode(xmlhttp.responseText));
+					alert(decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20")));
 				}
 			}
 			else{
@@ -844,7 +838,7 @@ function downloadFile(nodepath)
 		}
 	}
 	try{
-		xmlhttp.open("GET","/configStation/loadTree.do\?func=downloadfile\&curpath="+b.encode(nodepath),true);
+		xmlhttp.open("GET","/configStation/loadTree.do\?func=downloadfile\&curpath="+encodeURIComponent(nodepath),true);
 		xmlhttp.send(null);
 	}catch(exception){  
 		alert("downloadFile resource is not accessed!");
@@ -978,7 +972,6 @@ var contex_menu = {
 function loadJsonTree(curpath)
 {
 	var xmlhttp;
-	var b = new Base64();
 	if (window.XMLHttpRequest)
 	{
 		//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -996,12 +989,12 @@ function loadJsonTree(curpath)
 			if(xmlhttp.status==200)
 			{
 				try{
-					var str = b.decode(xmlhttp.responseText);
+					var str = decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20"));
 					var obj=JSON.parse(str);
 					treelist = eval('(' + str + ')');
 					ret = true;
 				} catch(e) {
-					alert(b.decode(xmlhttp.responseText));
+					alert(decodeURIComponent(xmlhttp.responseText.replace(/\+/g, "%20")));
 					ret = false;
 				}
 			}
@@ -1012,7 +1005,7 @@ function loadJsonTree(curpath)
 		}
 	}
 	try{
-		xmlhttp.open("GET","/configStation/loadTree.do\?func=loadtree\&curpath="+b.encode(curpath),false);
+		xmlhttp.open("GET","/configStation/loadTree.do\?func=loadtree\&curpath="+encodeURIComponent(curpath),false);
 		xmlhttp.send(null);
 		return ret;
 	}catch(exception){  
@@ -1096,7 +1089,6 @@ function loadJson(tree,node, jsonvar)
 
 function login() {
 	var xmlhttp;
-	var b = new Base64();
 	if (window.XMLHttpRequest)
 	{
 		//  IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
@@ -1124,113 +1116,10 @@ function login() {
 	try{  
 		var user = document.getElementsByName("username")[0].value;
 		var pass = document.getElementsByName("password")[0].value;
-		xmlhttp.open("POST","/configStation/main.do\?user="+b.encode(user)+"\&pass="+b.encode(pass),false);
+		xmlhttp.open("POST","/configStation/main.do\?user="+encodeURIComponent(user)+"\&pass="+encodeURIComponent(pass),false);
 		xmlhttp.send(null);
 	}catch(exception){  
 		alert("login resource is not accessed!");  
 	}
 }
 
-function Base64() {
- 
-    // private property
-    _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
- 
-    // public method for encoding
-    this.encode = function (input) {
-        var output = "";
-        var chr1, chr2, chr3, enc1, enc2, enc3, enc4;
-        var i = 0;
-        input = _utf8_encode(input);
-        while (i < input.length) {
-            chr1 = input.charCodeAt(i++);
-            chr2 = input.charCodeAt(i++);
-            chr3 = input.charCodeAt(i++);
-            enc1 = chr1 >> 2;
-            enc2 = ((chr1 & 3) << 4) | (chr2 >> 4);
-            enc3 = ((chr2 & 15) << 2) | (chr3 >> 6);
-            enc4 = chr3 & 63;
-            if (isNaN(chr2)) {
-                enc3 = enc4 = 64;
-            } else if (isNaN(chr3)) {
-                enc4 = 64;
-            }
-            output = output +
-            _keyStr.charAt(enc1) + _keyStr.charAt(enc2) +
-            _keyStr.charAt(enc3) + _keyStr.charAt(enc4);
-        }
-        return output;
-    }
- 
-    // public method for decoding
-    this.decode = function (input) {
-        var output = "";
-        var chr1, chr2, chr3;
-        var enc1, enc2, enc3, enc4;
-        var i = 0;
-        input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-        while (i < input.length) {
-            enc1 = _keyStr.indexOf(input.charAt(i++));
-            enc2 = _keyStr.indexOf(input.charAt(i++));
-            enc3 = _keyStr.indexOf(input.charAt(i++));
-            enc4 = _keyStr.indexOf(input.charAt(i++));
-            chr1 = (enc1 << 2) | (enc2 >> 4);
-            chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-            chr3 = ((enc3 & 3) << 6) | enc4;
-            output = output + String.fromCharCode(chr1);
-            if (enc3 != 64) {
-                output = output + String.fromCharCode(chr2);
-            }
-            if (enc4 != 64) {
-                output = output + String.fromCharCode(chr3);
-            }
-        }
-        output = _utf8_decode(output);
-        return output;
-    }
- 
-    // private method for UTF-8 encoding
-    _utf8_encode = function (string) {
-        //string = string.replace(/\r\n/g,"\n");
-        var utftext = "";
-        for (var n = 0; n < string.length; n++) {
-            var c = string.charCodeAt(n);
-            if (c < 128) {
-                utftext += String.fromCharCode(c);
-            } else if((c > 127) && (c < 2048)) {
-                utftext += String.fromCharCode((c >> 6) | 192);
-                utftext += String.fromCharCode((c & 63) | 128);
-            } else {
-                utftext += String.fromCharCode((c >> 12) | 224);
-                utftext += String.fromCharCode(((c >> 6) & 63) | 128);
-                utftext += String.fromCharCode((c & 63) | 128);
-            }
- 
-        }
-        return utftext;
-    }
- 
-    // private method for UTF-8 decoding
-    _utf8_decode = function (utftext) {
-        var string = "";
-        var i = 0;
-        var c = c1 = c2 = 0;
-        while ( i < utftext.length ) {
-            c = utftext.charCodeAt(i);
-            if (c < 128) {
-                string += String.fromCharCode(c);
-                i++;
-            } else if((c > 191) && (c < 224)) {
-                c2 = utftext.charCodeAt(i+1);
-                string += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
-                i += 2;
-            } else {
-                c2 = utftext.charCodeAt(i+1);
-                c3 = utftext.charCodeAt(i+2);
-                string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
-                i += 3;
-            }
-        }
-        return string;
-    }
-}
