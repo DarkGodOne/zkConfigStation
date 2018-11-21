@@ -15,4 +15,6 @@
 &lt;/context-param&gt;
 </code></pre>
 ![image](https://github.com/gxk527/zkConfigStation/blob/master/config.png)
+6. 增加中文支持，并临时提供测试地址：http://148.70.66.50/configStation，2018-12-05过期
+![image](https://github.com/gxk527/zkConfigStation/blob/master/zh.png)
 ## end
