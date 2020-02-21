@@ -321,9 +321,9 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 					}
 				}
 			}
-			try{ 
-				xmlhttp.open("GET","/configStation/loadTree.do\?func=getdata&curpath="+encodeURIComponent(p_node.nodepath),false);
-				xmlhttp.send(null);
+			try{
+				xmlhttp.open("POST","/configStation/loadTree.do\?func=getdata&curpath="+encodeURIComponent(p_node.nodepath),false);
+				xmlhttp.send(encodeURIComponent(""));
 			}catch(exception){  
 				alert("getdata resource is not accessed!");  
 			}
