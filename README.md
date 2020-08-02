@@ -30,6 +30,6 @@
 ![image](https://github.com/DarkGodOne/zkConfigStation/blob/master/login.png)
 7. 打开后是这个样子的：
 ![image](https://github.com/DarkGodOne/zkConfigStation/blob/master/config.png)
-6. 增加中文支持，并临时提供测试地址：http://www.darkgod.online:8080/configStation
+6. 增加中文支持，并临时提供测试地址：http://www.darkgod.online:8089/configStation
 ![image](https://github.com/DarkGodOne/zkConfigStation/blob/master/zh.png)
 ## end
